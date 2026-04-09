@@ -4,7 +4,38 @@
 
 ## 一键部署
 
-### Linux / macOS
+### Docker (推荐)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tianchengdemo/channel-analytics-releases/main/install-docker.sh | bash
+```
+
+自定义参数：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tianchengdemo/channel-analytics-releases/main/install-docker.sh | bash -s -- --port 9090 --password MyPass123
+```
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--port` | 8080 | 映射到宿主机的端口 |
+| `--dir` | /opt/site-analytics | 数据和配置存储目录 |
+| `--password` | (随机生成) | 管理员密码 |
+| `--name` | site-analytics | 容器名称 |
+
+或者手动运行：
+
+```bash
+docker run -d \
+  --name site-analytics \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -v /opt/site-analytics/data:/app/data \
+  -v /opt/site-analytics/config.yaml:/app/config.yaml:ro \
+  ghcr.io/tianchengdemo/channel-traffic-analytics:latest
+```
+
+### Linux / macOS (二进制)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tianchengdemo/channel-analytics-releases/main/install.sh | bash
